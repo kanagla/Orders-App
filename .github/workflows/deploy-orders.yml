@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
@@ -21,18 +21,14 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        working-directory: ./orders-app
         run: npm ci
 
       - name: Run Lint
-        working-directory: ./orders-app
         run: npm run lint
 
       - name: Build App
-        working-directory: ./orders-app
         run: npm run build
 
-      # ---- AWS DEPLOY ----
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -56,7 +52,7 @@ jobs:
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ecs-task-orders.json  # ✅ correct for orders app
-          service: orders-task-def-service-xxxxx  # ✅ your ECS service name for orders-app
+          task-definition: ecs-task-orders.json  # ✅ make sure this file exists in root
+          service: orders-app-service             # ✅ update to match ECS service name
           cluster: shell-cluster
           wait-for-service-stability: true
