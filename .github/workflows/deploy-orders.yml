@@ -46,7 +46,6 @@ jobs:
           region: ap-south-1
 
       - name: Build & Push Docker Image to ECR
-        working-directory: ./orders-app
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: orders-app
