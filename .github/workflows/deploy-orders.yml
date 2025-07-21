@@ -53,6 +53,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ecs-task-orders.json  # ✅ make sure this file exists in root
-          service: orders-app-task-service-giinjk9o             # ✅ update to match ECS service name
+          service: orders-app-service             # ✅ update to match ECS service name
           cluster: shell-cluster
           wait-for-service-stability: true
