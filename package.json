@@ -20,10 +20,13 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.config.js --open",
-    "build": "webpack --config webpack.config.js",
+     "build": "webpack --mode production",
+    "postbuild": "node scripts/copyRemoteEntry.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prebuild": "node generate-version.js"
+    "prebuild": "node generate-version.js",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,10 @@
   },
   "devDependencies": {
     "css-loader": "^7.1.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.6.2",
     "style-loader": "^4.0.0",
     "webpack-cli": "^6.0.1"
   }

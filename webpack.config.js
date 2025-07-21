@@ -4,7 +4,7 @@ const path = require("path");
 const deps = require("./package.json").dependencies;
 module.exports = {
   entry: "./src/index.tsx",
-  mode: "development",
+  mode: "production",
   devServer: {
   port: 3002,
   historyApiFallback: true,
@@ -12,9 +12,10 @@ module.exports = {
     "Access-Control-Allow-Origin": "*",
   },
 },
-
-  output: {
-    publicPath: "auto",
+   output: {
+    filename: "[name].[contenthash].js", // optional: add hash for cache busting
+    path: path.resolve(__dirname, "dist/microfrontends/orders/1.0.0"), // ✅ nested output
+    publicPath: "/microfrontends/orders/1.0.0/", // ✅ this is used at runtime for loading chunks
     clean: true,
   },
   resolve: {
