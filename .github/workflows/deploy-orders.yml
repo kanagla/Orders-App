@@ -3,9 +3,12 @@ name: Deploy Orders App
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
+    name: Build & Deploy Orders App
     runs-on: ubuntu-latest
 
     steps:
@@ -26,10 +29,19 @@ jobs:
       - name: Build App
         run: npm run build
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          region: ap-south-1
 
-      - name: Build & Push Docker Image
+      - name: Build & Push Docker Image to ECR
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: orders-app
@@ -40,7 +52,7 @@ jobs:
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ecs-task.json
-          service: orders-service
-          cluster: orders-cluster
+          task-definition: ecs-task-orders.json  # ✅ make sure this file exists in root
+          service: orders-app-service             # ✅ update to match ECS service name
+          cluster: shell-cluster
           wait-for-service-stability: true

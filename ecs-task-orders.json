@@ -1,0 +1,22 @@
+{
+  "family": "orders-app-task",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::944777361642:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "orders-app",
+      "image": "944777361642.dkr.ecr.ap-south-1.amazonaws.com/orders-app:latest",
+      "portMappings": [
+        {
+          "containerPort": 3002,
+          "hostPort": 3002,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    }
+  ]
+}
